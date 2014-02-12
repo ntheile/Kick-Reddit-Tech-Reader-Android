@@ -8,10 +8,10 @@ Reader for Reddit including the following subreddits (more to come):
 
 Frameworks Used
 ----------------
-* Android Annotations - Puts your code on a diet, reduces boilerplate code using annotations, lightweight dependecy injection, easy REST, easy Async Tasks
-* Spring - Used for REST calls
-* ActionBarSherlock - Makes the action bar work in older versions of Android
-* Picaso - Image loader and cacher from Square
+* `Android Annotations` - Puts your code on a diet, reduces boilerplate code using annotations, lightweight dependecy injection, easy REST, easy Async Tasks
+* `Spring` - Used for REST calls
+* `ActionBarSherlock` - Makes the action bar work in older versions of Android
+* `Picaso` - Image loader and cacher from Square
 
 
 Code Organization
@@ -110,8 +110,33 @@ public class MainActivity extends SherlockActivity {
 
 Simple Rest Service for Reddit
 ------------------------------
-Did you know reddit provides json formatting for each page, for example check out http://www.reddit.com/r/Android/.json. This makes it very simple to create a reader app.
+Did you know reddit provides json formatting for each page, for example check out
+http://www.reddit.com/r/Android/.json. This makes it very simple to create a reader app. Android Annotations
+and Spring do most of the dirty work when doing a REST call. All we have to do is create an interface with the
+@Rest annotation, then include your implemetations. Below I created a @Get annotation which returns
+a JsonNode representing data from Reddit. We implement this interface in the code in the next section. 
 
+
+`IRedditService.java`
+```java
+package services;
+
+import org.codehaus.jackson.JsonNode;
+import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import com.googlecode.androidannotations.annotations.rest.Get;
+import com.googlecode.androidannotations.annotations.rest.Rest;
+
+@Rest(converters = { MappingJacksonHttpMessageConverter.class })
+public interface IRedditService {
+	
+	@Get("http://www.reddit.com/r/Android/.json")
+	JsonNode getRedditsAsJSON();	
+
+}
+
+
+
+```
 
 Dependency Injection using @EBean
 --------------------------------
