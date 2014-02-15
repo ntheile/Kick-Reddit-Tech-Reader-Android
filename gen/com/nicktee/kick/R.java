@@ -791,6 +791,14 @@ containing a value of this type.
         /**  Minimum width of the search view text entry area. 
          */
         public static final int abs__search_view_text_min_width=0x7f07000b;
+        /**  Default screen margins, per the Android Design guidelines. 
+
+         Customize dimensions originally defined in res/values/dimens.xml (such as
+         screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
+    
+         */
+        public static final int activity_horizontal_margin=0x7f07000f;
+        public static final int activity_vertical_margin=0x7f070010;
     }
     public static final class drawable {
         public static final int abs__ab_bottom_solid_dark_holo=0x7f020000;
@@ -909,7 +917,7 @@ containing a value of this type.
         public static final int ic_launcher=0x7f020071;
     }
     public static final class id {
-        public static final int LinearLayout1=0x7f040033;
+        public static final int LinearLayout1=0x7f040032;
         public static final int abs__action_bar=0x7f040020;
         public static final int abs__action_bar_container=0x7f04001f;
         public static final int abs__action_bar_subtitle=0x7f040011;
@@ -949,25 +957,26 @@ containing a value of this type.
         public static final int abs__textButton=0x7f040013;
         public static final int abs__title=0x7f04001b;
         public static final int abs__up=0x7f04000b;
+        public static final int action_settings=0x7f04003c;
         public static final int desc=0x7f040038;
         public static final int disableHome=0x7f040009;
         public static final int edit_query=0x7f040026;
         public static final int homeAsUp=0x7f040006;
         public static final int iconImg=0x7f040036;
         public static final int listMode=0x7f040002;
-        public static final int listViewToDo=0x7f040035;
-        public static final int menu_item1=0x7f04003a;
+        public static final int listViewToDo=0x7f040034;
         public static final int menu_reddit=0x7f04003b;
+        public static final int menu_refresh=0x7f04003a;
         public static final int menu_settings=0x7f040039;
         public static final int normal=0x7f040001;
-        public static final int progress=0x7f040034;
+        public static final int progress=0x7f040033;
         public static final int showCustom=0x7f040008;
         public static final int showHome=0x7f040005;
         public static final int showTitle=0x7f040007;
         public static final int tabMode=0x7f040003;
-        public static final int textView1=0x7f040032;
         public static final int title=0x7f040037;
         public static final int useLogo=0x7f040004;
+        public static final int webView=0x7f040035;
         public static final int wrap_content=0x7f040000;
     }
     public static final class integer {
@@ -996,13 +1005,14 @@ containing a value of this type.
         public static final int abs__search_view=0x7f030013;
         public static final int abs__simple_dropdown_hint=0x7f030014;
         public static final int activity_main=0x7f030015;
-        public static final int fragment_reddit=0x7f030016;
+        public static final int activity_web=0x7f030016;
         public static final int row_reddit=0x7f030017;
         public static final int sherlock_spinner_dropdown_item=0x7f030018;
         public static final int sherlock_spinner_item=0x7f030019;
     }
     public static final class menu {
         public static final int activity_main=0x7f0c0000;
+        public static final int web=0x7f0c0001;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1044,9 +1054,11 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abs__shareactionprovider_share_with_application=0x7f090007;
+        public static final int action_settings=0x7f090011;
         public static final int app_name=0x7f09000d;
         public static final int hello_world=0x7f09000e;
         public static final int menu_settings=0x7f09000f;
+        public static final int title_activity_web=0x7f090010;
     }
     public static final class style {
         public static final int AppTheme=0x7f0a0059;

@@ -12,17 +12,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.googlecode.androidannotations.api.BackgroundExecutor;
+import com.googlecode.androidannotations.api.SdkVersionHelper;
 import com.nicktee.kick.R.layout;
 import models.Reddit;
 import services.RedditService_;
@@ -37,17 +38,17 @@ public final class MainActivity_
     public void onCreate(Bundle savedInstanceState) {
         init_(savedInstanceState);
         super.onCreate(savedInstanceState);
-        setContentView(layout.fragment_reddit);
+        setContentView(layout.activity_main);
     }
 
     private void init_(Bundle savedInstanceState) {
+        injectExtras_();
         redditService = RedditService_.getInstance_(this);
     }
 
     private void afterSetContentView_() {
-        progress = ((ProgressBar) findViewById(com.nicktee.kick.R.id.progress));
         listViewToDo = ((ListView) findViewById(com.nicktee.kick.R.id.listViewToDo));
-        textView1 = ((TextView) findViewById(com.nicktee.kick.R.id.textView1));
+        progress = ((ProgressBar) findViewById(com.nicktee.kick.R.id.progress));
         {
             AdapterView<?> view = ((AdapterView<?> ) findViewById(com.nicktee.kick.R.id.listViewToDo));
             if (view!= null) {
@@ -85,8 +86,41 @@ public final class MainActivity_
         afterSetContentView_();
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (((SdkVersionHelper.getSdkInt()< 5)&&(keyCode == KeyEvent.KEYCODE_BACK))&&(event.getRepeatCount() == 0)) {
+            onBackPressed();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
     public static MainActivity_.IntentBuilder_ intent(Context context) {
         return new MainActivity_.IntentBuilder_(context);
+    }
+
+    @SuppressWarnings("unchecked")
+    private<T >T cast_(Object object) {
+        return ((T) object);
+    }
+
+    private void injectExtras_() {
+        Intent intent_ = getIntent();
+        Bundle extras_ = intent_.getExtras();
+        if (extras_!= null) {
+            if (extras_.containsKey("url")) {
+                try {
+                    url = cast_(extras_.get("url"));
+                } catch (ClassCastException e) {
+                    Log.e("MainActivity_", "Could not cast extra to expected type, the field is left to its default value", e);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void setIntent(Intent newIntent) {
+        super.setIntent(newIntent);
+        injectExtras_();
     }
 
     @Override
@@ -103,12 +137,12 @@ public final class MainActivity_
             return true;
         }
         int itemId_ = item.getItemId();
-        if (itemId_ == com.nicktee.kick.R.id.menu_item1) {
-            menu_item1Selected();
-            return true;
-        }
         if (itemId_ == com.nicktee.kick.R.id.menu_reddit) {
             menu_redditSelected();
+            return true;
+        }
+        if (itemId_ == com.nicktee.kick.R.id.menu_refresh) {
+            menu_refreshSelected();
             return true;
         }
         if (itemId_ == com.nicktee.kick.R.id.menu_settings) {
@@ -183,6 +217,11 @@ public final class MainActivity_
             } else {
                 context_.startActivity(intent_);
             }
+        }
+
+        public MainActivity_.IntentBuilder_ url(String url) {
+            intent_.putExtra("url", url);
+            return this;
         }
 
     }

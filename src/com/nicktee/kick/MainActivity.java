@@ -4,32 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.Reddit;
-
-import org.codehaus.jackson.JsonNode;
-
 import services.RedditService;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EActivity;
+import com.googlecode.androidannotations.annotations.Extra;
 import com.googlecode.androidannotations.annotations.ItemClick;
 import com.googlecode.androidannotations.annotations.OptionsItem;
 import com.googlecode.androidannotations.annotations.OptionsMenu;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
 
-@EActivity(R.layout.fragment_reddit)
+@EActivity(R.layout.activity_main)
 @OptionsMenu(R.menu.activity_main)
-public class MainActivity extends SherlockActivity {
+public class MainActivity extends SherlockFragmentActivity {
 
 	@ViewById
 	TextView textView1;
@@ -40,12 +37,18 @@ public class MainActivity extends SherlockActivity {
 	@ViewById
 	ProgressBar progress;
 	
+	@Extra
+    String url;
+	
+
 	public List<Reddit> reddits = new ArrayList<Reddit>();
 	
 	
 	@AfterViews
 	void afterViews() {
-		getRedditInBackground();
+		if (reddits.isEmpty()){
+			getRedditInBackground();	
+		}
 	}
 	
 	@Override
@@ -61,8 +64,8 @@ public class MainActivity extends SherlockActivity {
 	}
 
 	@OptionsItem
-	void menu_item1Selected() {
-		// do work when item1 is clicked
+	void menu_refreshSelected() {
+		getRedditInBackground();	
 	}
 
 	@OptionsItem
@@ -89,13 +92,16 @@ public class MainActivity extends SherlockActivity {
 		progress.setVisibility(View.GONE) ;
 	}
 	
+
 	@ItemClick
 	protected void listViewToDoItemClicked(Reddit selectedRedditItem) {
 		// open browser with article url
 		String url = selectedRedditItem.getUrl();
-		Intent i = new Intent(Intent.ACTION_VIEW);
-		i.setData(Uri.parse(url));
+		Intent i = new Intent(getApplicationContext(), WebActivity_.class);
+		i.putExtra("Url", url);
+		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(i);
+		
 	}
 
 }

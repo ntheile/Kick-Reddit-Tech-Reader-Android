@@ -71,6 +71,7 @@ public class RedditArrayAdapter extends ArrayAdapter<Reddit> {
 		final ImageView iconImg = (ImageView)row.findViewById(R.id.iconImg);
 		//Load the image using the Picasso by Square lib, allows for image caching
 		String imgUrl = currentItem.getThumbnail().toString();
+		if (!imgUrl.contains("http")) imgUrl = "http://f.thumbs.redditmedia.com/hGUWW4cj-7ix49NY.jpg";
 		Picasso.with(ctxt).load(imgUrl).into(iconImg);
 		
 		

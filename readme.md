@@ -4,7 +4,7 @@ Reader for Reddit including the following subreddits (more to come):
 
 * /r/Android
 
-
+![Screenshot](/assets/reddit_reader.png)
 
 Frameworks Used
 ----------------
@@ -33,7 +33,7 @@ Notice how clean the code is in the MainActiviy. We use annotations to get our v
 We also run a backgroud thread to fetch the Reddit articles, then use the adapter in the UIThread to display them.
 
 ```java
-@EActivity(R.layout.fragment_reddit)
+@EActivity(R.layout.activity_main)
 @OptionsMenu(R.menu.activity_main)
 public class MainActivity extends SherlockActivity {
 
@@ -237,8 +237,8 @@ First create a layout representing one row, then use an adapter to inject that r
 ```
 
 `RedditArrayAdapter.java`
-This code is pretty much boilerplate. We pass in a List of Reddits in the constructor, then most of the code that inject the data
-into the row view is getView() method
+This code is pretty much boilerplate. We pass in a List of Reddits in the constructor, 
+most of the code that injects the data into the row view is in the getView() method.
 
 ```java
 package com.nicktee.kick;
