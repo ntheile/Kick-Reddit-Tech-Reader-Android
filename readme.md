@@ -8,13 +8,13 @@ Reader for Reddit including the following subreddits (more to come):
 
 Table of Contents
 ------------------
-* [Frameworks Used](#framewordks-used)
+* [Frameworks Used](#frameworks-used)
 * [Code Organization](#code-organization)
 * [Architecture](#architecture)
 * [Reddit Model Ormlite and Json](#reddit-model-ormlite-and-json)
 * [Code Diet](#code-diet)
 * [Simple Rest Service for Reddit](#simple-rest-service-for-reddit)
-* [Dependency Injection using @EBean](#dependency-injection-using-@ebean)
+* [Dependency Injection using @EBean](#dependency-injection-using-ebean)
 * [Adapters](#adapters)
 
 Frameworks Used
