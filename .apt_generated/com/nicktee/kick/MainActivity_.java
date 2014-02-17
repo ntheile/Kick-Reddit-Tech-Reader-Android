@@ -137,12 +137,12 @@ public final class MainActivity_
             return true;
         }
         int itemId_ = item.getItemId();
-        if (itemId_ == com.nicktee.kick.R.id.menu_reddit) {
-            menu_redditSelected();
-            return true;
-        }
         if (itemId_ == com.nicktee.kick.R.id.menu_refresh) {
             menu_refreshSelected();
+            return true;
+        }
+        if (itemId_ == com.nicktee.kick.R.id.menu_reddit) {
+            menu_redditSelected();
             return true;
         }
         if (itemId_ == com.nicktee.kick.R.id.menu_settings) {
@@ -153,14 +153,14 @@ public final class MainActivity_
     }
 
     @Override
-    public void showResult(final List<Reddit> redditList) {
+    public void showResult(final List<Reddit> redditList, final boolean shouldHideProgress) {
         handler_.post(new Runnable() {
 
 
             @Override
             public void run() {
                 try {
-                    MainActivity_.super.showResult(redditList);
+                    MainActivity_.super.showResult(redditList, shouldHideProgress);
                 } catch (RuntimeException e) {
                     Log.e("MainActivity_", "A runtime exception was thrown while executing code in a runnable", e);
                 }
@@ -179,6 +179,24 @@ public final class MainActivity_
             public void run() {
                 try {
                     MainActivity_.super.getRedditInBackground();
+                } catch (RuntimeException e) {
+                    Log.e("MainActivity_", "A runtime exception was thrown while executing code in a runnable", e);
+                }
+            }
+
+        }
+        );
+    }
+
+    @Override
+    public void getCachedReddits() {
+        BackgroundExecutor.execute(new Runnable() {
+
+
+            @Override
+            public void run() {
+                try {
+                    MainActivity_.super.getCachedReddits();
                 } catch (RuntimeException e) {
                     Log.e("MainActivity_", "A runtime exception was thrown while executing code in a runnable", e);
                 }

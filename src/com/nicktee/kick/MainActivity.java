@@ -2,15 +2,15 @@ package com.nicktee.kick;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import models.Reddit;
+import services.DatabaseManager;
 import services.RedditService;
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.googlecode.androidannotations.annotations.AfterViews;
@@ -29,9 +29,6 @@ import com.googlecode.androidannotations.annotations.ViewById;
 public class MainActivity extends SherlockFragmentActivity {
 
 	@ViewById
-	TextView textView1;
-
-	@ViewById
 	ListView listViewToDo;
 	
 	@ViewById
@@ -40,15 +37,19 @@ public class MainActivity extends SherlockFragmentActivity {
 	@Extra
     String url;
 	
-
 	public List<Reddit> reddits = new ArrayList<Reddit>();
 	
-	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // For all ormlite calls use the DatabaseManager
+        DatabaseManager.init(this);
+    }
+		
 	@AfterViews
 	void afterViews() {
-		if (reddits.isEmpty()){
-			getRedditInBackground();	
-		}
+		getCachedReddits();
+		getRedditInBackground();
 	}
 	
 	@Override
@@ -79,17 +80,20 @@ public class MainActivity extends SherlockFragmentActivity {
 	@Background
 	void getRedditInBackground() {
 		this.reddits = redditService.getRedditsList();
-		showResult(this.reddits);
+		populateRedditCache(this.reddits);
+		showResult(this.reddits, true);
 	}
 
 
 	@UiThread
-	void showResult(List<Reddit> redditList) {
+	void showResult(List<Reddit> redditList, boolean shouldHideProgress) {
 		// load adapter
 		RedditArrayAdapter adapter = new RedditArrayAdapter(this, R.layout.row_reddit, redditList);
 		listViewToDo.setAdapter(adapter);
 		// hide progress bar
-		progress.setVisibility(View.GONE) ;
+		if (shouldHideProgress){
+			progress.setVisibility(View.GONE) ;	
+		}
 	}
 	
 
@@ -101,7 +105,21 @@ public class MainActivity extends SherlockFragmentActivity {
 		i.putExtra("Url", url);
 		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(i);
-		
 	}
-
+	
+	@Background
+	void getCachedReddits(){
+		this.reddits = DatabaseManager.getInstance().getAllReddits();
+		showResult(this.reddits, false);
+    }
+	
+	void populateRedditCache(List<Reddit> rs){
+		// delete all the old reddits
+		DatabaseManager.getInstance().deleteReddits();
+		// add all the new reddits
+		for (Reddit red : rs){
+			DatabaseManager.getInstance().addReddit(red);
+		}
+	}
+    
 }

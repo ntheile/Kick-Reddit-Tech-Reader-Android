@@ -1,8 +1,10 @@
 package com.nicktee.kick;
 
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.googlecode.androidannotations.annotations.AfterViews;
@@ -17,6 +19,8 @@ public class WebActivity extends SherlockFragmentActivity {
 	@ViewById
 	WebView webView;
 	
+	@ViewById
+	ProgressBar webProgress;
 	
 	@AfterViews
 	void afterView(){
@@ -31,6 +35,7 @@ public class WebActivity extends SherlockFragmentActivity {
 		}
         webView.setWebViewClient(new WebViewClient());
 		webView.loadUrl(url);
+		webProgress.setVisibility(View.GONE);
 	}
 	
 	

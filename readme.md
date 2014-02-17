@@ -12,6 +12,7 @@ Frameworks Used
 * `Spring` - Used for REST calls
 * `ActionBarSherlock` - Makes the action bar work in older versions of Android
 * `Picaso` - Image loader and cacher from Square
+* `Ormlite` - Sqlite Object Relational Mapper to map reddit objects into sql for caching.
 
 
 Code Organization
@@ -20,8 +21,69 @@ Package Structure
 
 * `com.nicktee.kick` - this is where activies and adapter code goes, basically any code dealing with the view
 * `models` - This is where the raw models go represting out object, in this case a Reddit object
-* `services` - This is where all the services go, in this case a RedditService that does the REST calls to get Reddit articles
+* `services` - This is where all the services go, in this case a RedditService that does the REST calls to get 
+Reddit articles. The DatabaseManager and DataBaseHelper  coordinate the calls to the sqlite database.
 
+Architecture
+--------------
+The app loads cached Reddits from the sqlite database. In the background a new list of Reddits from the web are fetched. Once the new reedits are fetched they are displayed on the 
+listview adapter and the the sqlite database is updated with the new Reddits.
+
+Reddit Model
+-------------
+This is the Reddit model. Notice we use Jackson for json serialization using various @Json* annotations and 
+ormlite @Database* annatations to allow our model to be put into a sqlite database. There are a DatabaseHelper and DatabaseManager classes
+to help coordinate saving items to the sqlite database. This article explains this in depth: http://logic-explained.blogspot.com/2011/12/using-ormlite-in-android-projects.html
+
+`Reddit.java`
+```java
+package models;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+@DatabaseTable(tableName = "Reddit")
+public class Reddit {
+
+	// constructor
+	public Reddit() {
+		super();
+	}
+
+	@DatabaseField(generatedId = true)
+	@JsonIgnore
+	private int id;
+
+	@DatabaseField
+	@JsonProperty("url")
+	private String url;
+
+	@DatabaseField
+	@JsonProperty("selftext")
+	private String selftext;
+
+	@DatabaseField
+	@JsonProperty("thumbnail")
+	private String thumbnail;
+
+	@DatabaseField
+	@JsonProperty("author_flair_text")
+	private String author_flair_text;
+
+	@DatabaseField
+	@JsonProperty("title")
+	private String title;
+
+	// ... getters and setters
+
+}
+
+```
 
 Code Diet
 ---------

@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.webkit.WebView;
+import android.widget.ProgressBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.googlecode.androidannotations.api.SdkVersionHelper;
@@ -36,6 +37,7 @@ public final class WebActivity_
 
     private void afterSetContentView_() {
         webView = ((WebView) findViewById(id.webView));
+        webProgress = ((ProgressBar) findViewById(id.webProgress));
         afterView();
     }
 
