@@ -6,6 +6,17 @@ Reader for Reddit including the following subreddits (more to come):
 
 ![Screenshot](/assets/reddit_reader.png)
 
+Table of Contents
+------------------
+* [Frameworks Used](#framewordks-used)
+* [Code Organization](#code-organization)
+* [Architecture](#architecture)
+* [Reddit Model Ormlite and Json](#reddit-model-ormlite-and-json)
+* [Code Diet](#code-diet)
+* [Simple Rest Service for Reddit](#simple-rest-service-for-reddit)
+* [Dependency Injection using @EBean](#dependency-injection-using-@ebean)
+* [Adapters](#adapters)
+
 Frameworks Used
 ----------------
 * `Android Annotations` - Puts your code on a diet, reduces boilerplate code using annotations, lightweight dependecy injection, easy REST, easy Async Tasks
@@ -29,8 +40,8 @@ Architecture
 The app loads cached Reddits from the sqlite database. In the background a new list of Reddits from the web are fetched. Once the new reedits are fetched they are displayed on the 
 listview adapter and the the sqlite database is updated with the new Reddits.
 
-Reddit Model
--------------
+Reddit Model Ormlite and Json
+-----------------------------
 This is the Reddit model. Notice we use Jackson for json serialization using various @Json* annotations and 
 ormlite @Database* annatations to allow our model to be put into a sqlite database. There are a DatabaseHelper and DatabaseManager classes
 to help coordinate saving items to the sqlite database. This article explains this in depth: http://logic-explained.blogspot.com/2011/12/using-ormlite-in-android-projects.html
@@ -201,7 +212,7 @@ public interface IRedditService {
 ```
 
 Dependency Injection using @EBean
---------------------------------
+----------------------------------
 Notice in the services package we declare a `IRedditService.java` interface to do the Get request and return JSON, 
 then we simply extend this interface to map the JSON to our Reddit Object model. I am using the android annontations @EBean annotation to 
 allow this class to be injected into our main activity without having to "new" one up.
